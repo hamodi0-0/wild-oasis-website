@@ -1,6 +1,8 @@
-function ReservationForm() {
+import { Cabin } from "../_types/cabinInterface";
+
+function ReservationForm({ cabin }: { cabin: Cabin }) {
   // CHANGE
-  const maxCapacity = 23;
+  const maxCapacity = cabin.maxCapacity;
 
   return (
     <div className="scale-[1.01]">

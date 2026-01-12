@@ -16,7 +16,7 @@ export default async function Reservation({ cabin }: { cabin: Cabin }) {
         cabin={cabin}
         bookedDates={bookedDates}
       />
-      <ReservationForm />
+      <ReservationForm cabin={cabin} />
     </div>
   );
 }
