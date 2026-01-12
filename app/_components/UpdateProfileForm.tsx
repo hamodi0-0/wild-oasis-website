@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { childrenProp } from "../_types/generalTypes";
+import { childrenProp } from "../_types/types";
 
 export default function UpdateProfileForm({ children }: childrenProp) {
   const [count, setCount] = useState(0);
