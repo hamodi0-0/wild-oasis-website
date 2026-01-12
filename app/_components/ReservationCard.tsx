@@ -7,7 +7,8 @@ export const formatDistanceFromNow = (dateStr: string) =>
     addSuffix: true,
   }).replace("about ", "");
 
-function ReservationCard({ booking }) {
+function ReservationCard({ booking }: { booking: any }) {
+  // meow
   const {
     id,
     guestId,

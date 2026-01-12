@@ -1,19 +1,41 @@
-import { getCabin } from "@/app/_lib/data-service";
+import DateSelector from "@/app/_components/DateSelector";
+import Reservation from "@/app/_components/Reservation";
+import ReservationForm from "@/app/_components/ReservationForm";
+import Spinner from "@/app/_components/Spinner";
+import TextExpander from "@/app/_components/TextExpander";
+import {
+  getBookedDatesByCabinId,
+  getCabin,
+  getCabins,
+  getSettings,
+} from "@/app/_lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
+import { Suspense } from "react";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { cabinId: number };
-}) {
-  const { cabinId } = await params;
-  const { name } = await getCabin(cabinId);
+// export async function generateMetadata({
+//   params,
+// }: {
+//   params: { cabinId: number };
+// }) {
+//   const { cabinId } = await params;
+//   const { name } = await getCabin(cabinId);
 
-  return {
-    title: `Cabin ${name}`,
-  };
-}
+//   return {
+//     title: `Cabin ${name}`,
+//   };
+// }
+
+// export async function generateStaticParams() {
+//   // Fetch all cabins to generate their paths
+//   const cabins = await getCabins();
+
+//   const ids = cabins.map((cabin: { id: number }) => ({
+//     cabinId: String(cabin.id),
+//   }));
+
+//   return ids;
+// }
 
 export default async function Page({
   params,
@@ -21,7 +43,13 @@ export default async function Page({
   params: { cabinId: number };
 }) {
   const { cabinId } = await params;
-  const cabin = await getCabin(cabinId);
+
+  const [cabin, bookedDates, settings] = await Promise.all([
+    getCabin(cabinId),
+    getBookedDatesByCabinId(cabinId),
+    getSettings(),
+  ]);
+
   const { id, name, maxCapacity, regularPrice, discount, image, description } =
     cabin;
 
@@ -42,7 +70,9 @@ export default async function Page({
             Cabin {name}
           </h3>
 
-          <p className="text-lg text-primary-300 mb-10">{description}</p>
+          <p className="text-lg text-primary-300 mb-10">
+            <TextExpander>{description}</TextExpander>
+          </p>
 
           <ul className="flex flex-col gap-4 mb-7">
             <li className="flex gap-3 items-center">
@@ -70,9 +100,13 @@ export default async function Page({
       </div>
 
       <div>
-        <h2 className="text-5xl font-semibold text-center">
-          Reserve today. Pay on arrival.
+        <h2 className="text-5xl font-semibold text-center mb-10 text-accent-400">
+          Reserve {name} today. Pay on arrival.
         </h2>
+
+        <Suspense fallback={<Spinner />}>
+          <Reservation cabin={cabin} />
+        </Suspense>
       </div>
     </div>
   );
