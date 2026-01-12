@@ -1,10 +1,6 @@
 @import "tailwindcss";
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
 
 @theme {
-  /* Primary Colors */
   --color-primary-50: #e1e8ef;
   --color-primary-100: #d4dee7;
   --color-primary-200: #b7c7d7;
@@ -17,7 +13,6 @@
   --color-primary-900: #1b2631;
   --color-primary-950: #141c24;
 
-  /* Accent Colors */
   --color-accent-50: #faf5f0;
   --color-accent-100: #f4ece1;
   --color-accent-200: #e8d6bf;
@@ -31,8 +26,6 @@
   --color-accent-950: #382814;
 }
 
-@custom-variant hover (&:hover);
-
 @layer components {
   .spinner {
     margin: 3.2rem auto 1.6rem;
@@ -40,7 +33,7 @@
     aspect-ratio: 1;
     border-radius: 50%;
     border: 8px solid theme("colors.primary.900");
-    border-right-color: theme("colors.primary.200");
+    border-right-color: theme("colors.primary.100");
     animation: rotate 1s infinite linear;
   }
 
@@ -49,7 +42,7 @@
     width: 20px;
     aspect-ratio: 1;
     border-radius: 50%;
-    border: 2px solid theme("colors.primary.200");
+    border: 2px solid theme("colors.primary.100");
     border-right-color: transparent;
     animation: rotate 1s infinite linear;
   }
@@ -61,9 +54,25 @@
   }
 }
 
-For data picker .rdp {
-  --rdp-cell-size: 32px !important;
+/* DayPicker v9 styles */
+/* For day picker */
+.rdp-root {
   --rdp-accent-color: theme("colors.accent.500") !important;
   --rdp-background-color: theme("colors.accent.600") !important;
+  --rdp-range_middle-background-color: theme(
+    "colors.accent.600"
+  ) !important; /* The color of the background for days in the middle of a range. */
   margin: 0 !important;
+}
+
+.rdp-months {
+  flex-wrap: nowrap !important;
+}
+
+.rdp-root {
+  padding-top: 11px !important;
+}
+
+.rdp-month_caption {
+  justify-content: center !important;
 }

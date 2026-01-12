@@ -153,7 +153,11 @@ export async function getCountries() {
 /////////////
 // CREATE
 
-export async function createGuest(newGuest) {
+export async function createGuest(newGuest: {
+  name: string;
+  email: string;
+  country: string;
+}) {
   const { data, error } = await supabase.from("guests").insert([newGuest]);
 
   if (error) {
@@ -164,7 +168,8 @@ export async function createGuest(newGuest) {
   return data;
 }
 
-export async function createBooking(newBooking) {
+export async function createBooking(newBooking: any) {
+  //meow
   const { data, error } = await supabase
     .from("bookings")
     .insert([newBooking])
@@ -184,7 +189,8 @@ export async function createBooking(newBooking) {
 // UPDATE
 
 // The updatedFields is an object which should ONLY contain the updated data
-export async function updateGuest(id: number, updatedFields) {
+export async function updateGuest(id: number, updatedFields: any) {
+  //meow
   const { data, error } = await supabase
     .from("guests")
     .update(updatedFields)
@@ -199,7 +205,8 @@ export async function updateGuest(id: number, updatedFields) {
   return data;
 }
 
-export async function updateBooking(id: number, updatedFields) {
+export async function updateBooking(id: number, updatedFields: any) {
+  //meow
   const { data, error } = await supabase
     .from("bookings")
     .update(updatedFields)

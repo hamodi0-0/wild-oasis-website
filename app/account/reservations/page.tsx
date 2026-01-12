@@ -6,7 +6,7 @@ export const metadata = {
 
 export default function Page() {
   // CHANGE
-  const bookings: string[] = []; //for now
+  const bookings: any[] = []; //meow
 
   return (
     <div>
