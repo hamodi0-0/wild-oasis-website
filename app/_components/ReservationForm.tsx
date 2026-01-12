@@ -1,3 +1,5 @@
+"use client";
+
 import { Cabin } from "../_types/cabinInterface";
 
 function ReservationForm({ cabin }: { cabin: Cabin }) {

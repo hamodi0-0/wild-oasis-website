@@ -2,7 +2,8 @@
 
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
-// import { useReservation } from "./ReservationContext";
+import { useReservation } from "./ReservationContext";
+import { dateSelectorProps } from "../_types/types";
 
 // function isAlreadyBooked(range, datesArr) {
 //   return (
@@ -14,15 +15,14 @@ import "react-day-picker/style.css";
 //   );
 // }
 
-function DateSelector({ settings, cabin, bookedDates }) {
-  // const { range, setRange, resetRange } = useReservation();
+function DateSelector({ settings, cabin, bookedDates }: dateSelectorProps) {
+  const { range, setRange, resetRange } = useReservation();
 
   // CHANGE
   const regularPrice = 23;
   const discount = 23;
   const numNights = 23;
   const cabinPrice = 23;
-  const range = { from: null, to: null };
 
   // SETTINGS
   const { minBookingLength, maxBookingLength } = settings;
@@ -32,17 +32,13 @@ function DateSelector({ settings, cabin, bookedDates }) {
       <DayPicker
         className="pt-12 place-self-center"
         mode="range"
-        // onSelect={setRange}
-        // selected={range}
-        min={minBookingLength + 1}
-        max={maxBookingLength}
-        fromMonth={new Date()}
-        fromDate={new Date()}
-        toYear={new Date().getFullYear() + 5}
-        captionLayout="dropdown"
+        selected={range}
+        onSelect={setRange}
+        disabled={{ before: new Date() }}
+        startMonth={new Date()}
+        endMonth={new Date(new Date().getFullYear() + 5, 11)} // 5 years ahead
         numberOfMonths={2}
       />
-
       <div className="flex items-center justify-between px-8 bg-accent-500 text-primary-800 h-18">
         <div className="flex items-baseline gap-6">
           <p className="flex gap-2 items-baseline">
@@ -71,14 +67,14 @@ function DateSelector({ settings, cabin, bookedDates }) {
           ) : null}
         </div>
 
-        {/* {range.from || range.to ? (
+        {range?.from || range?.to ? (
           <button
             className="border border-primary-800 py-2 px-4 text-sm font-semibold"
             onClick={resetRange}
           >
             Clear
           </button>
-        ) : null} */}
+        ) : null}
       </div>
     </div>
   );

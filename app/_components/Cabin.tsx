@@ -1,9 +1,9 @@
-import { Cabin as cabinProps } from "../_types/cabinInterface";
+import { cabinInterface } from "../_types/types";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import TextExpander from "@/app/_components/TextExpander";
 import Image from "next/image";
 
-export default function Cabin({ cabin }: { cabin: cabinProps }) {
+export default function Cabin({ cabin }: { cabin: cabinInterface }) {
   const { id, name, maxCapacity, regularPrice, discount, image, description } =
     cabin;
 

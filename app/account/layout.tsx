@@ -1,4 +1,4 @@
-import { childrenProp } from "@/app/_types/generalTypes";
+import { childrenProp } from "@/app/_types/types";
 import SideNavigation from "../_components/SideNavigation";
 
 export default function Layout({ children }: childrenProp) {
