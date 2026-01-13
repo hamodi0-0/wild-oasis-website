@@ -1,9 +1,9 @@
 import CabinCard from "@/app/_components/CabinCard";
 import { getCabins } from "../_lib/data-service";
-import { Cabin } from "../_types/cabinInterface";
+import { cabinInterface } from "../_types/types";
 
 export default async function CabinList({ filter }: { filter: string }) {
-  const cabins: Cabin[] = await getCabins();
+  const cabins: cabinInterface[] = await getCabins();
   if (!cabins.length) return null;
 
   const displayedCabins =
