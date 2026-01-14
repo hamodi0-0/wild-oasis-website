@@ -1,8 +1,7 @@
 "use client";
 
-import { Cabin } from "../_types/cabinInterface";
-
-function ReservationForm({ cabin }: { cabin: Cabin }) {
+import { cabinInterface } from "../_types/types";
+function ReservationForm({ cabin }: { cabin: cabinInterface }) {
   // CHANGE
   const maxCapacity = cabin.maxCapacity;
 

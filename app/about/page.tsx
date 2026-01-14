@@ -1,6 +1,6 @@
 import Image from "next/image";
 import aboutImage1 from "@/public/about-1.jpg";
-import { Cabin } from "../_types/cabinInterface";
+import { cabinInterface } from "../_types/types";
 import { getCabins } from "../_lib/data-service";
 import Link from "next/link";
 // import aboutImage2 from "@/public/about-2.jpg";
@@ -10,7 +10,7 @@ export const metadata = { title: "About" };
 export const revalidate = 0;
 
 export default async function Page() {
-  const cabins: Cabin[] = await getCabins();
+  const cabins: cabinInterface[] = await getCabins();
   const numOfCabins = cabins.length;
 
   return (
