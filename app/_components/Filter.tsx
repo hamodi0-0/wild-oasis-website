@@ -4,7 +4,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export default function Filter() {
-  const [currentFilter, setCurrentFilter] = useState<string | null>(null);
+  const [currentFilter, setCurrentFilter] = useState<string | null>("all");
 
   const searchParams = useSearchParams();
   const router = useRouter();
