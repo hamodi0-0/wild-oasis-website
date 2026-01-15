@@ -1,3 +1,4 @@
+import { Session, User } from "next-auth";
 import { ReactNode } from "react";
 
 export interface childrenProp {
@@ -27,4 +28,16 @@ export interface dateSelectorProps {
   settings: settingsInterface;
   cabin: cabinInterface;
   bookedDates: Date[];
+}
+
+export interface userInterface {
+  name: string;
+  email: string;
+  image: string;
+}
+
+export interface CustomSession extends Session {
+  user: User & {
+    guestId?: number;
+  };
 }

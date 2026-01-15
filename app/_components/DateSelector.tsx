@@ -53,7 +53,7 @@ function DateSelector({ settings, cabin, bookedDates }: dateSelectorProps) {
             ) : (
               <span className="text-2xl">${regularPrice}</span>
             )}
-            <span className="">/night</span>
+            <span>/night</span>
           </p>
           {numNights ? (
             <>
