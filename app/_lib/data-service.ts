@@ -53,7 +53,9 @@ export async function getCabins(): Promise<cabinInterface[]> {
 }
 
 // Guests are uniquely identified by their email address
-export async function getGuest(email: string) {
+export async function getGuest(
+  email: string
+): Promise<{ id: number; fullName: string; email: string } | null> {
   const { data, error } = await supabase
     .from("guests")
     .select("*")
@@ -154,9 +156,8 @@ export async function getCountries() {
 // CREATE
 
 export async function createGuest(newGuest: {
-  name: string;
+  fullName: string;
   email: string;
-  country: string;
 }) {
   const { data, error } = await supabase.from("guests").insert([newGuest]);
 
@@ -169,6 +170,7 @@ export async function createGuest(newGuest: {
 }
 
 export async function createBooking(newBooking: any) {
+  //meow
   //meow
   const { data, error } = await supabase
     .from("bookings")
