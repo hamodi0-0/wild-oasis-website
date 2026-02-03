@@ -3,6 +3,7 @@ import { Public_Sans } from "next/font/google";
 import { childrenProp } from "./_types/types";
 import Header from "./_components/Header";
 import { ReservationProvider } from "./_components/ReservationContext";
+import { Toaster } from "sonner";
 
 const pSans = Public_Sans({
   subsets: ["latin"],
@@ -26,7 +27,20 @@ export default function RootLayout({ children }: childrenProp) {
         <Header />
         <div className="flex-1 px-8 py-12 grid">
           <main className="max-w-7xl mx-auto w-full">
-            <ReservationProvider>{children}</ReservationProvider>
+            <ReservationProvider>
+              {children}
+              <Toaster
+                position="top-center"
+                richColors
+                toastOptions={{
+                  style: {
+                    textAlign: "center",
+                    fontSize: "16px",
+                    fontWeight: "600",
+                  },
+                }}
+              />
+            </ReservationProvider>
           </main>
         </div>
       </body>
