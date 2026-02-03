@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { cabinInterface, userInterface } from "../_types/types";
 function ReservationForm({
   cabin,
@@ -17,7 +18,7 @@ function ReservationForm({
         <p>Logged in as</p>
 
         <div className="flex gap-4 items-center">
-          <img
+          <Image
             // Important to display google profile images
             referrerPolicy="no-referrer"
             className="h-8 rounded-full"

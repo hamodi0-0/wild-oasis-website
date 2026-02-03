@@ -8,6 +8,8 @@ import {
 import SignOutButton from "./SignOutButton";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+// import { useRouter } from "next/router";
+// import { useEffect } from "react";
 
 const navLinks = [
   {
@@ -29,7 +31,6 @@ const navLinks = [
 
 function SideNavigation() {
   const path = usePathname();
-  console.log(path);
 
   return (
     <nav className="border-r border-primary-900">
@@ -41,6 +42,7 @@ function SideNavigation() {
                 path === link.href ? "bg-primary-900 text-primary-100" : ""
               }`}
               href={link.href}
+              prefetch={true}
             >
               {link.icon}
               <span>{link.name}</span>

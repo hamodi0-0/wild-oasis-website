@@ -1,6 +1,10 @@
 import { eachDayOfInterval } from "date-fns";
 import { supabase } from "./supabase";
-import { cabinInterface } from "../_types/types";
+import {
+  bookingInterface,
+  cabinInterface,
+  guestInterface,
+} from "../_types/types";
 import { notFound } from "next/navigation";
 
 /////////////
@@ -41,7 +45,7 @@ export async function getCabinPrice(id: number) {
 export async function getCabins(): Promise<cabinInterface[]> {
   const { data, error } = await supabase
     .from("cabins")
-    .select("id, name, maxCapacity, regularPrice, discount, image")
+    .select("id, name, maxCapacity, regularPrice, discount, image, description")
     .order("name");
 
   if (error) {
@@ -53,9 +57,7 @@ export async function getCabins(): Promise<cabinInterface[]> {
 }
 
 // Guests are uniquely identified by their email address
-export async function getGuest(
-  email: string
-): Promise<{ id: number; fullName: string; email: string } | null> {
+export async function getGuest(email: string): Promise<guestInterface | null> {
   const { data, error } = await supabase
     .from("guests")
     .select("*")
@@ -66,7 +68,7 @@ export async function getGuest(
   return data;
 }
 
-export async function getBooking(id: number) {
+export async function getBooking(id: number): Promise<bookingInterface> {
   const { data, error, count } = await supabase
     .from("bookings")
     .select("*")
@@ -86,7 +88,7 @@ export async function getBookings(guestId: number) {
     .from("bookings")
     // We actually also need data on the cabins as well. But let's ONLY take the data that we actually need, in order to reduce downloaded data.
     .select(
-      "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, guestId, cabinId, cabins(name, image)"
+      "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, guestId, cabinId, cabins(name, image)",
     )
     .eq("guestId", guestId)
     .order("startDate");
@@ -143,7 +145,7 @@ export async function getSettings() {
 export async function getCountries() {
   try {
     const res = await fetch(
-      "https://restcountries.com/v2/all?fields=name,flag"
+      "https://restcountries.com/v2/all?fields=name,flag",
     );
     const countries = await res.json();
     return countries;
@@ -169,9 +171,7 @@ export async function createGuest(newGuest: {
   return data;
 }
 
-export async function createBooking(newBooking: any) {
-  //meow
-  //meow
+export async function createBooking(newBooking: bookingInterface) {
   const { data, error } = await supabase
     .from("bookings")
     .insert([newBooking])
@@ -191,7 +191,8 @@ export async function createBooking(newBooking: any) {
 // UPDATE
 
 // The updatedFields is an object which should ONLY contain the updated data
-export async function updateGuest(id: number, updatedFields: any) {
+/** 
+ export async function updateGuest(id: number, updatedFields: any) {
   //meow
   const { data, error } = await supabase
     .from("guests")
@@ -228,10 +229,11 @@ export async function updateBooking(id: number, updatedFields: any) {
 
 export async function deleteBooking(id: number) {
   const { data, error } = await supabase.from("bookings").delete().eq("id", id);
-
+  
   if (error) {
     console.error(error);
     throw new Error("Booking could not be deleted");
   }
   return data;
 }
+**/
