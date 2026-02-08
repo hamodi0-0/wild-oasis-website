@@ -7,7 +7,7 @@ export default async function Page({
   params: Promise<{ bookingId: string }>;
 }) {
   const bookingId = Number((await params).bookingId);
-  console.log("Booking ID:", bookingId);
+
   const booking = await getBooking(bookingId);
   const { maxCapacity } = await getCabin(booking.cabinId);
   return (

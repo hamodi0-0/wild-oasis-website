@@ -67,7 +67,7 @@ export interface bookingInterface {
   cabinId: number;
   guestId: number;
   id: number;
-  cabins: cabinInterface;
+  cabins: { name: string; image: string };
 }
 
 export type FormState = {
@@ -75,3 +75,20 @@ export type FormState = {
   success?: boolean;
   message?: string;
 };
+
+export interface bookingDataInterface {
+  startDate: Date | undefined;
+  endDate: Date | undefined;
+  numNights: number;
+  cabinPrice: number;
+  cabinId: number;
+}
+
+export interface settingsInterface {
+  id: number;
+  created_at: string;
+  minBookingLength: number;
+  maxBookingLength: number;
+  maxGuestsPerBooking: number;
+  breakfastPrice: number;
+}

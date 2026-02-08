@@ -1,11 +1,16 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { CustomSession, FormState } from "../_types/types";
+import {
+  bookingDataInterface,
+  CustomSession,
+  FormState,
+  settingsInterface,
+} from "../_types/types";
 import { auth, signIn, signOut } from "./auth";
 import { supabase } from "./supabase";
 import { z } from "zod";
-import { getBookings } from "./data-service";
+import { getBookings, getSettings } from "./data-service";
 import { redirect } from "next/navigation";
 
 // updateGuest action
@@ -24,7 +29,7 @@ const reservationSchema = z.object({
     .max(10, "Maximum 10 guests allowed"),
   observations: z
     .string()
-    .max(500, "Observations must be under 500 characters")
+    .max(1000, "Observations must be under 1000 characters")
     .optional(),
 });
 
@@ -117,7 +122,7 @@ export async function updateReservation(
   }
 
   const numGuests = Number(formData.get("numGuests"));
-  const observations = formData.get("observations") as string;
+  const observations = String(formData.get("observations"));
 
   const result = reservationSchema.safeParse({ numGuests, observations });
 
@@ -145,17 +150,68 @@ export async function updateReservation(
   redirect("/account/reservations");
 }
 
-export async function deleteReservation(bookingId: number) {
+export async function createBooking(
+  bookingData: bookingDataInterface,
+  prevState: FormState,
+  formData: FormData,
+): Promise<FormState> {
+  const session = (await auth()) as CustomSession;
+
+  if (!session) {
+    return {
+      errors: { _form: ["Unauthorized"] },
+      message: "You must be logged in to create a booking.",
+    };
+  }
+  const settings: settingsInterface = await getSettings();
+
+  const newBooking = {
+    ...bookingData,
+    guestId: session.user.guestId,
+    numGuests: Number(formData.get("numGuests")),
+    observations: String(formData.get("observations")?.slice(0, 1000)),
+    extrasPrice: formData.get("hasBreakfast")
+      ? Number(settings.breakfastPrice * Number(bookingData.numNights))
+      : 0,
+    totalPrice: formData.get("hasBreakfast")
+      ? Number(bookingData.cabinPrice) +
+        Number(settings.breakfastPrice * Number(bookingData.numNights))
+      : Number(bookingData.cabinPrice),
+    isPaid: false,
+    hasBreakfast: formData.get("hasBreakfast"),
+    status: "unconfirmed",
+  };
+
+  try {
+    await supabase.from("bookings").insert([newBooking]);
+    revalidatePath(`/cabins/${bookingData.cabinId}`);
+  } catch (error) {
+    return {
+      errors: { _form: ["Failed to create booking"] },
+      message: "Something went wrong. Please try again.",
+    };
+  }
+
+  redirect("/cabins/thankyou");
+}
+
+export async function deleteBooking(bookingId: number) {
   const session = (await auth()) as CustomSession;
   if (!session) {
-    throw new Error("Unauthorized");
+    return {
+      success: false,
+      error: "You must be logged in to delete a reservation.",
+    };
   }
 
   const guestBookings = await getBookings(session.user.guestId!);
   const bookingIds = guestBookings.map((booking) => booking.id);
 
   if (!bookingIds.includes(bookingId)) {
-    throw new Error("Unauthorized to delete this reservation");
+    return {
+      success: false,
+      error: "You are not allowed to delete this reservation.",
+    };
   }
 
   try {
@@ -163,7 +219,7 @@ export async function deleteReservation(bookingId: number) {
     revalidatePath("/account/profile");
     return { success: true };
   } catch (error) {
-    return { success: false, error: "Failed to delete" };
+    return { success: false, error: "Failed to delete reservation" };
   }
 }
 
