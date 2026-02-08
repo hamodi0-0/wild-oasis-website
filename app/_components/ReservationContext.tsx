@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useState } from "react";
+import React, { createContext, useCallback, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { childrenProp } from "../_types/types";
 
@@ -11,15 +11,15 @@ interface ReservationContextType {
 }
 
 const ReservationContext = createContext<ReservationContextType | undefined>(
-  undefined
+  undefined,
 );
 
 function ReservationProvider({ children }: childrenProp) {
   const [range, setRange] = useState<DateRange | undefined>();
 
-  function resetRange() {
+  const resetRange = useCallback(() => {
     setRange(undefined);
-  }
+  }, []);
 
   return (
     <ReservationContext.Provider value={{ range, setRange, resetRange }}>

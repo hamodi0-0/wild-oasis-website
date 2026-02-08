@@ -4,26 +4,33 @@ import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { useReservation } from "./ReservationContext";
 import { dateSelectorProps } from "../_types/types";
+import {
+  differenceInDays,
+  isPast,
+  isSameDay,
+  isWithinInterval,
+} from "date-fns";
 
-// function isAlreadyBooked(range, datesArr) {
-//   return (
-//     range.from &&
-//     range.to &&
-//     datesArr.some((date) =>
-//       isWithinInterval(date, { start: range.from, end: range.to })
-//     )
-//   );
-// }
+function isAlreadyBooked(range, datesArr) {
+  return (
+    range?.from &&
+    range?.to &&
+    datesArr.some((date: Date) =>
+      isWithinInterval(date, { start: range.from, end: range.to }),
+    )
+  );
+}
 
 function DateSelector({ settings, cabin, bookedDates }: dateSelectorProps) {
   const { range, setRange, resetRange } = useReservation();
+  const displayRange = isAlreadyBooked(range, bookedDates) ? undefined : range;
 
-  // CHANGE
-  const regularPrice = 23;
-  const discount = 23;
-  const numNights = 23;
-  const cabinPrice = 23;
-
+  const { regularPrice, discount } = cabin;
+  const numNights =
+    displayRange?.from && displayRange?.to
+      ? differenceInDays(displayRange.to, displayRange.from)
+      : 0;
+  const cabinPrice = numNights * (regularPrice - discount);
   // SETTINGS
   const { minBookingLength, maxBookingLength } = settings;
 
@@ -33,11 +40,16 @@ function DateSelector({ settings, cabin, bookedDates }: dateSelectorProps) {
         animate
         className="pt-12 place-self-center"
         mode="range"
-        selected={range}
+        selected={displayRange}
         onSelect={setRange}
-        disabled={{ before: new Date() }}
+        min={minBookingLength + 1}
+        max={maxBookingLength}
         startMonth={new Date()}
         endMonth={new Date(new Date().getFullYear() + 5, 11)} // 5 years ahead
+        disabled={(curDate) =>
+          isPast(curDate) ||
+          bookedDates.some((date) => isSameDay(date, curDate))
+        }
         numberOfMonths={2}
       />
       <div className="flex items-center justify-between px-8 bg-accent-500 text-primary-800 h-18">

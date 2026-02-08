@@ -3,15 +3,20 @@
 import { TrashIcon } from "@heroicons/react/24/solid";
 import { useTransition } from "react";
 import { toast } from "sonner";
-import { deleteReservation } from "../_lib/actions";
 import SpinnerMini from "./SpinnerMini";
 
-function DeleteReservation({ bookingId }: { bookingId: number }) {
+function DeleteReservation({
+  bookingId,
+  onDelete,
+}: {
+  bookingId: number;
+  onDelete: (id: number) => any; //change later
+}) {
   const [isPending, startTransition] = useTransition();
 
   const handleDelete = () => {
     startTransition(async () => {
-      const result = await deleteReservation(bookingId);
+      const result = await onDelete(bookingId);
       if (result.success) {
         toast.success("Reservation deleted successfully");
       } else {
