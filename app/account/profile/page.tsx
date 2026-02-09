@@ -22,7 +22,7 @@ export default async function Page() {
         faster and smoother. See you soon!
       </p>
 
-      <UpdateProfileForm guest={guest}>
+      <UpdateProfileForm guest={guest!}>
         <SelectCountry
           name="nationality"
           id="nationality"
