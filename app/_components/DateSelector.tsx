@@ -1,6 +1,6 @@
 "use client";
 
-import { DayPicker } from "react-day-picker";
+import { DateRange, DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { useReservation } from "./ReservationContext";
 import { dateSelectorProps } from "../_types/types";
@@ -11,14 +11,15 @@ import {
   isWithinInterval,
 } from "date-fns";
 
-function isAlreadyBooked(range, datesArr) {
-  return (
-    range?.from &&
-    range?.to &&
-    datesArr.some((date: Date) =>
-      isWithinInterval(date, { start: range.from, end: range.to }),
-    )
-  );
+function isAlreadyBooked(range: DateRange | undefined, datesArr: Date[]) {
+  if (!range?.from || !range?.to) {
+    return false;
+  }
+
+  const start = range.from;
+  const end = range.to;
+
+  return datesArr.some((date: Date) => isWithinInterval(date, { start, end }));
 }
 
 function DateSelector({ settings, cabin, bookedDates }: dateSelectorProps) {
