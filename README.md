@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# The Wild Oasis
+
+A cabin booking website built with Next.js that allows users to browse luxury cabins, make reservations, and manage their bookings.
+
+![The Wild Oasis Homepage](./public/wild-oasis-home.png)
+
+## What It Does
+
+The Wild Oasis is a full-stack web application for booking vacation cabins. Users can:
+
+- Browse available cabins with detailed information and pricing
+- View cabin availability using an interactive date picker
+- Create reservations and manage bookings
+- Authenticate using Google OAuth
+- Update their guest profile with personal information
+- View, edit, and delete their existing reservations
+- Select their nationality from a country picker
+- Add breakfast options to their reservations
+
+## Tech Stack
+
+**Frontend:**
+
+- Next.js 16.1.1 - React framework with server components
+- React 19.2.3 - UI library
+- TypeScript - Type-safe JavaScript
+- Tailwind CSS 4 - Utility-first CSS framework
+- date-fns - Date manipulation and formatting
+- react-day-picker - Date range selection component
+- Sonner - Toast notifications
+
+**Backend & Services:**
+
+- Supabase - PostgreSQL database and authentication
+- NextAuth 5.0.0-beta - Authentication and session management
+- Google OAuth - Social login provider
+
+**Development:**
+
+- ESLint - Code linting
+- PostCSS - CSS processing
+- Zod - Schema validation
+
+## Environment Variables
+
+Create a `.env.local` file with:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+NEXTAUTH_SECRET=your_secret
+NEXTAUTH_URL=http://localhost:3000
+GOOGLE_ID=your_google_oauth_id
+GOOGLE_SECRET=your_google_oauth_secret
+```
 
 ## Getting Started
 
-First, run the development server:
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm start` - Start production server
+- `npm run lint` - Run ESLint
 
-## Learn More
+## Key Features
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Server-side rendering with Next.js App Router
+- Real-time database queries using Supabase
+- Role-based access control for protected routes
+- Form validation with Zod
+- Responsive design with Tailwind CSS
+- Toast notifications for user feedback
+- Type-safe components with TypeScript

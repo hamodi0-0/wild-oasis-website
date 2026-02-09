@@ -53,7 +53,7 @@ export default async function Page() {
 
       <div className="col-span-2 relative aspect-square">
         <Image
-          src="/about-2.jpg"
+          src="/about-1.jpg"
           fill
           className="object-cover"
           alt="Family that manages The Wild Oasis"
