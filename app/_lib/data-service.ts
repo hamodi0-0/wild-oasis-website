@@ -90,7 +90,7 @@ export async function getBookings(
     .from("bookings")
     // We actually also need data on the cabins as well. But let's ONLY take the data that we actually need, in order to reduce downloaded data.
     .select(
-      "id, created_at, startDate, endDate, numNights, numGuests, cabinPrice, extrasPrice, totalPrice, status, hasBreakfast, isPaid, observations, guestId, cabinId, cabins!inner(name, image)",
+      "id, created_at, startDate, endDate, numNights, numGuests, cabinPrice, extrasPrice, totalPrice, status, hasBreakfast, isPaid, observations, guestId, cabinId, cabins(name, image)",
     )
     .eq("guestId", guestId)
     .order("startDate");
@@ -100,10 +100,10 @@ export async function getBookings(
     throw new Error("Bookings could not get loaded");
   }
 
-  // console.log("First booking cabins:", data[0]?.cabins);
-  // console.log("Is array?", Array.isArray(data[0]?.cabins));
-
-  return data;
+  return data.map((booking) => ({
+    ...booking,
+    cabins: Array.isArray(booking.cabins) ? booking.cabins[0] : booking.cabins,
+  }));
 }
 
 export async function getBookedDatesByCabinId(cabinId: number) {
