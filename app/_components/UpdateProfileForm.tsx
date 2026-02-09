@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect } from "react";
 import { guestInterface } from "../_types/types";
 import { updateGuest } from "../_lib/actions";
 import { toast } from "sonner";
@@ -14,9 +14,7 @@ export default function UpdateProfileForm({
   children: React.ReactNode;
   guest: guestInterface;
 }) {
-  // const [count, setCount] = useState(0);
-
-  const { fullName, email, countryFlag, nationality, nationalID } = guest;
+  const { fullName, email, countryFlag, nationalID } = guest;
   const [state, formAction, isPending] = useActionState(updateGuest, {});
 
   useEffect(() => {

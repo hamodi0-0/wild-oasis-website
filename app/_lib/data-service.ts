@@ -58,7 +58,7 @@ export async function getCabins(): Promise<cabinInterface[]> {
 
 // Guests are uniquely identified by their email address
 export async function getGuest(email: string): Promise<guestInterface | null> {
-  const { data, error } = await supabase
+  const { data } = await supabase
     .from("guests")
     .select("*")
     .eq("email", email)
@@ -69,7 +69,7 @@ export async function getGuest(email: string): Promise<guestInterface | null> {
 }
 
 export async function getBooking(id: number): Promise<bookingInterface> {
-  const { data, error, count } = await supabase
+  const { data, error } = await supabase
     .from("bookings")
     .select("*")
     .eq("id", id)
@@ -86,7 +86,7 @@ export async function getBooking(id: number): Promise<bookingInterface> {
 export async function getBookings(
   guestId: number,
 ): Promise<bookingInterface[]> {
-  const { data, error, count } = await supabase
+  const { data, error } = await supabase
     .from("bookings")
     // We actually also need data on the cabins as well. But let's ONLY take the data that we actually need, in order to reduce downloaded data.
     .select(
